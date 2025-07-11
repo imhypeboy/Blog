@@ -1,0 +1,28 @@
+{
+  "name": "blog-community",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port 3000",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "@types/react-window": "^1.8.8",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "typescript": "~5.8.3",
+    "vite": "^7.0.4"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/icons-material": "^7.2.0",
+    "@mui/material": "^7.2.0",
+    "@supabase/supabase-js": "^2.50.4",
+    "framer-motion": "^12.23.3",
+    "react-router-dom": "^7.6.3",
+    "react-window": "^1.8.11",
+    "zustand": "^5.0.6"
+  }
+}
