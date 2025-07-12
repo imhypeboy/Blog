@@ -23,7 +23,7 @@ export const getSession = () => supabase.auth.getSession()
 export const signOut = () => supabase.auth.signOut()
 
 // 실시간 구독을 위한 헬퍼
-export const subscribeToTable = <T>(
+export const subscribeToTable = <_T>(
   table: string,
   callback: (payload: any) => void,
   filters?: string

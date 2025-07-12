@@ -22,6 +22,20 @@ body {
   overflow-x: hidden;
 }
 
+/* === Global Wallpaper Background ================================= */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  /* 원하는 월페이퍼 이미지를 /assets/bg.jpg 등으로 교체하세요 */
+  background: url('/assets/wallpaper.jpg') center/cover no-repeat,
+              radial-gradient(circle at 20% 30%, rgba(255,87,51,0.15), transparent 60%),
+              radial-gradient(circle at 80% 70%, rgba(99,102,241,0.15), transparent 60%);
+  background-attachment: fixed;
+  filter: blur(6px) saturate(1.1);
+}
+
 /* 스크롤바 스타일링 (wrtn.io 스타일) */
 ::-webkit-scrollbar {
   width: 6px;
@@ -41,37 +55,18 @@ body {
   background: rgba(255, 87, 51, 0.6);
 }
 
-/* wrtn.io 스타일 글래스모피즘 유틸리티 클래스 */
-.glassmorphism {
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 20px;
-  box-shadow: 
-    0 8px 32px rgba(0, 0, 0, 0.1),
-    0 2px 8px rgba(0, 0, 0, 0.05),
-    inset 0 1px 0 rgba(255, 255, 255, 0.5);
-}
-
+/* === Glassmorphism Card Utility ================================= */
 .glassmorphism-card {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 20px;
-  box-shadow: 
-    0 8px 32px rgba(0, 0, 0, 0.08),
-    0 2px 8px rgba(0, 0, 0, 0.04);
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
 }
-
 .glassmorphism-card:hover {
-  background: rgba(255, 255, 255, 0.85);
-  box-shadow: 
-    0 12px 40px rgba(0, 0, 0, 0.12),
-    0 4px 12px rgba(0, 0, 0, 0.06);
-  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(255, 87, 51, 0.25);
+  transform: translateY(-2px);
 }
 
 .glassmorphism-nav {

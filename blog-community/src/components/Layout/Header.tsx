@@ -12,14 +12,9 @@ import {
   Box,
   useTheme,
   useMediaQuery,
-  Tabs,
-  Tab,
 } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
-import CreateIcon from '@mui/icons-material/Create'
-import ChatIcon from '@mui/icons-material/Chat'
-import HomeIcon from '@mui/icons-material/Home'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { useAuthStore } from '../../store/authStore'

@@ -1,9 +1,12 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { Routes, Route } from 'react-router-dom'
-import { Box, useTheme } from '@mui/material'
+import { Box } from '@mui/material'
 import { motion } from 'framer-motion'
 import Layout from './components/Layout/Layout'
 import HomePage from './pages/HomePage'
+import TrendingPage from './pages/TrendingPage'
+import PortfolioPage from './pages/PortfolioPage'
+import AboutPage from './pages/AboutPage'
 import LoginPage from './pages/LoginPage'
 import PostPage from './pages/PostPage'
 import CreatePostPage from './pages/CreatePostPage'
@@ -14,7 +17,6 @@ import { supabase } from './lib/supabase'
 import { standardMotionVariants } from './theme/theme'
 
 function App() {
-  const theme = useTheme()
   const { setUser, setLoading } = useAuthStore()
 
   useEffect(() => {
@@ -60,6 +62,9 @@ function App() {
         <Layout>
           <Routes>
             <Route path="/" element={<HomePage />} />
+            <Route path="/trending" element={<TrendingPage />} />
+            <Route path="/portfolio" element={<PortfolioPage />} />
+            <Route path="/about" element={<AboutPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/post/:id" element={<PostPage />} />
             <Route path="/create" element={<CreatePostPage />} />
