@@ -12,7 +12,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => (
     <Header />
     <Container
       component="main"
-      maxWidth="lg"
+      maxWidth={false}
       sx={{
         flex: 1,
         py: 4,

@@ -17,6 +17,7 @@ import {
   DialogActions,
   useTheme,
   useMediaQuery,
+  Stack,
 } from '@mui/material'
 import {
   GitHub,
@@ -27,6 +28,34 @@ import {
   Star,
 } from '@mui/icons-material'
 import { motion, AnimatePresence } from 'framer-motion'
+
+const categories = [
+  '전체',
+  '프론트엔드',
+  'React',
+  'CSS',
+  '백엔드',
+  'AI',
+  'Node.js',
+  '디자인',
+] as const
+
+type Category = typeof categories[number]
+
+const techColors: Record<string, string> = {
+  React: '#61dafb',
+  CSS: '#2965f1',
+  'TypeScript': '#3178c6',
+  'JavaScript': '#f7df1e',
+  'Node.js': '#3c873a',
+  'Next.js': '#000',
+  'Tailwind CSS': '#38bdf8',
+  'Supabase': '#3ecf8e',
+  'AI': '#a259ff',
+  '프론트엔드': '#ffb300',
+  '백엔드': '#8d6e63',
+  '디자인': '#ff80ab',
+}
 
 interface Project {
   id: string
@@ -122,11 +151,17 @@ const PortfolioPage: React.FC = () => {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
   const [selectedProject, setSelectedProject] = useState<Project | null>(null)
-  const [filter, setFilter] = useState<'all' | 'featured'>('all')
+  const [category, setCategory] = useState<Category>('전체')
 
-  const filteredProjects = filter === 'featured' 
-    ? mockProjects.filter(p => p.featured)
-    : mockProjects
+  // 카테고리 필터링
+  const filteredProjects = category === '전체'
+    ? mockProjects
+    : mockProjects.filter(p =>
+        p.technologies.includes(category) ||
+        (category === '프론트엔드' && p.technologies.some(t => ['React', 'TypeScript', 'CSS', 'JavaScript', 'Next.js', 'Tailwind CSS'].includes(t))) ||
+        (category === '백엔드' && p.technologies.some(t => ['Node.js', 'Supabase'].includes(t))) ||
+        (category === 'AI' && p.technologies.some(t => t.toLowerCase().includes('ai')))
+      )
 
   const handleProjectClick = (project: Project) => {
     setSelectedProject(project)
@@ -159,14 +194,14 @@ const PortfolioPage: React.FC = () => {
   }
 
   return (
-    <Container maxWidth="lg" sx={{ py: 8 }}>
+    <Container maxWidth="xl" sx={{ py: 8 }}>
       {/* 헤더 섹션 */}
       <motion.div
-        initial={{ opacity: 0, y: -20 }}
+        initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        <Box sx={{ textAlign: 'center', mb: 8 }}>
+        <Box sx={{ textAlign: 'center', mb: 6 }}>
           <Typography
             variant="h2"
             component="h1"
@@ -194,56 +229,34 @@ const PortfolioPage: React.FC = () => {
             개발자들의 창의적인 프로젝트와 혁신적인 아이디어를 만나보세요
           </Typography>
 
-          {/* 필터 버튼 */}
-          <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', mb: 6 }}>
-            <Button
-              variant={filter === 'all' ? 'contained' : 'outlined'}
-              onClick={() => setFilter('all')}
-              sx={{
-                borderRadius: '20px',
-                px: 3,
-                py: 1,
-                textTransform: 'none',
-                fontWeight: 500,
-                background: filter === 'all' 
-                  ? 'linear-gradient(135deg, #ff5733 0%, #ff4520 100%)'
-                  : 'transparent',
-                borderColor: '#ff5733',
-                color: filter === 'all' ? '#fff' : '#ff5733',
-                '&:hover': {
-                  background: filter === 'all' 
-                    ? 'linear-gradient(135deg, #ff6b4a 0%, #ff5733 100%)'
-                    : 'rgba(255, 87, 51, 0.1)',
-                }
-              }}
-            >
-              전체 프로젝트
-            </Button>
-            <Button
-              variant={filter === 'featured' ? 'contained' : 'outlined'}
-              onClick={() => setFilter('featured')}
-              startIcon={<Star />}
-              sx={{
-                borderRadius: '20px',
-                px: 3,
-                py: 1,
-                textTransform: 'none',
-                fontWeight: 500,
-                background: filter === 'featured' 
-                  ? 'linear-gradient(135deg, #ff5733 0%, #ff4520 100%)'
-                  : 'transparent',
-                borderColor: '#ff5733',
-                color: filter === 'featured' ? '#fff' : '#ff5733',
-                '&:hover': {
-                  background: filter === 'featured' 
-                    ? 'linear-gradient(135deg, #ff6b4a 0%, #ff5733 100%)'
-                    : 'rgba(255, 87, 51, 0.1)',
-                }
-              }}
-            >
-              인기 프로젝트
-            </Button>
-          </Box>
+          {/* 카테고리 필터 버튼 */}
+          <Stack direction="row" spacing={1} justifyContent="center" flexWrap="wrap" sx={{ mb: 6 }}>
+            {categories.map(c => (
+              <Button
+                key={c}
+                variant={category === c ? 'contained' : 'outlined'}
+                onClick={() => setCategory(c)}
+                sx={{
+                  borderRadius: '20px',
+                  px: 2.5,
+                  py: 0.7,
+                  fontWeight: 500,
+                  fontSize: '1rem',
+                  background: category === c ? 'linear-gradient(135deg, #ff5733 0%, #ff4520 100%)' : 'transparent',
+                  color: category === c ? '#fff' : '#ff5733',
+                  borderColor: '#ff5733',
+                  boxShadow: category === c ? '0 2px 12px rgba(255,87,51,0.10)' : 'none',
+                  textTransform: 'none',
+                  mb: 1,
+                  transition: 'all 0.18s',
+                  '&:hover': {
+                    background: category === c ? 'linear-gradient(135deg, #ff6b4a 0%, #ff5733 100%)' : 'rgba(255, 87, 51, 0.08)',
+                    color: '#fff',
+                  },
+                }}
+              >{c}</Button>
+            ))}
+          </Stack>
         </Box>
       </motion.div>
 
@@ -253,58 +266,60 @@ const PortfolioPage: React.FC = () => {
         initial="hidden"
         animate="visible"
       >
-        <Grid container spacing={4}>
+        <Grid container spacing={isMobile ? 3 : 5} justifyContent="center">
           {filteredProjects.map((project) => (
-            <Grid item xs={12} md={6} lg={4} key={project.id}>
-              <motion.div variants={cardVariants}>
-                <Card
-                  onClick={() => handleProjectClick(project)}
+            <Grid item xs={12} sm={6} md={4} key={project.id} sx={{ display: 'flex', justifyContent: 'center' }}>
+              <motion.div variants={cardVariants} style={{ width: '100%' }}>
+                <Box
                   sx={{
-                    cursor: 'pointer',
-                    borderRadius: '24px',
-                    overflow: 'hidden',
-                    background: 'rgba(255, 255, 255, 0.55)',
-                    backdropFilter: 'blur(14px)',
-                    border: '1px solid rgba(255, 255, 255, 0.3)',
-                    transition: 'all 0.3s ease',
-                    '&:hover': {
-                      transform: 'translateY(-8px)',
-                      boxShadow: '0 20px 40px rgba(255, 87, 51, 0.15)',
-                      background: 'rgba(255, 255, 255, 0.65)',
-                    },
+                    width: { xs: '100%', sm: 340, md: 400, lg: 440 },
+                    maxWidth: '100%',
                   }}
                 >
-                  <CardMedia
-                    component="img"
-                    height="200"
-                    image={project.image}
-                    alt={project.title}
+                  <Card
+                    onClick={() => handleProjectClick(project)}
                     sx={{
-                      objectFit: 'cover',
+                      cursor: 'pointer',
+                      borderRadius: '20px',
+                      overflow: 'hidden',
+                      aspectRatio: '4 / 3',
+                      background: 'rgba(255, 255, 255, 0.55)',
+                      backdropFilter: 'blur(14px)',
+                      border: '1px solid rgba(255, 255, 255, 0.3)',
+                      transition: 'all 0.3s cubic-bezier(.4,1.6,.4,1)',
+                      boxShadow: '0 2px 8px rgba(30,41,59,0.06)',
+                      position: 'relative',
+                      '&:hover': {
+                        boxShadow: '0 8px 32px rgba(255,87,51,0.13)',
+                        background: 'rgba(255, 255, 255, 0.65)',
+                      },
                     }}
-                  />
-                  <CardContent sx={{ p: 3 }}>
-                    <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                      <Typography
-                        variant="h6"
-                        component="h3"
+                  >
+                    <Box sx={{ position: 'relative', height: '60%' }}>
+                      <CardMedia
+                        component="img"
+                        image={project.image}
+                        alt={project.title}
                         sx={{
-                          fontWeight: 600,
-                          color: '#1a202c',
-                          flex: 1,
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'cover',
                         }}
-                      >
-                        {project.title}
-                      </Typography>
+                      />
+                      {/* 인기 뱃지 */}
                       {project.featured && (
                         <Chip
                           icon={<Star />}
                           label="인기"
                           size="small"
                           sx={{
+                            position: 'absolute',
+                            top: 16,
+                            right: 16,
                             background: 'linear-gradient(135deg, #ff5733 0%, #ff4520 100%)',
                             color: '#fff',
                             fontWeight: 500,
+                            zIndex: 2,
                             '& .MuiChip-icon': {
                               color: '#fff',
                             },
@@ -312,64 +327,109 @@ const PortfolioPage: React.FC = () => {
                         />
                       )}
                     </Box>
-
-                    <Typography
-                      variant="body2"
+                    <CardContent sx={{ p: 3, height: '40%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                      <Box>
+                        <Typography
+                          variant="h6"
+                          component="h3"
+                          sx={{
+                            fontWeight: 700,
+                            color: '#1a202c',
+                            mb: 1,
+                            fontSize: '1.18rem',
+                          }}
+                        >
+                          {project.title}
+                        </Typography>
+                        <Typography
+                          variant="body2"
+                          sx={{
+                            color: '#4a5568',
+                            mb: 2,
+                            lineHeight: 1.6,
+                            fontWeight: 500,
+                            minHeight: 32,
+                          }}
+                        >
+                          {project.description}
+                        </Typography>
+                        {/* 기술스택 Chip 강조 */}
+                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 2 }}>
+                          {project.technologies.map((tech) => (
+                            <Chip
+                              key={tech}
+                              label={tech}
+                              size="small"
+                              sx={{
+                                background: techColors[tech] ? techColors[tech] : 'rgba(255,87,51,0.10)',
+                                color: techColors[tech] && ['#000', '#8d6e63', '#ffb300'].includes(techColors[tech]) ? '#fff' : '#222',
+                                fontWeight: 600,
+                                fontSize: '0.92rem',
+                                px: 1.2,
+                              }}
+                            />
+                          ))}
+                        </Box>
+                      </Box>
+                      {/* 통계 */}
+                      <Box sx={{ display: 'flex', gap: 3, color: '#4a5568', fontSize: '0.875rem' }}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                          <Star sx={{ fontSize: '1rem' }} />
+                          <span>{project.stats.stars}</span>
+                        </Box>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                          <Code sx={{ fontSize: '1rem' }} />
+                          <span>{project.stats.forks}</span>
+                        </Box>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                          <TrendingUp sx={{ fontSize: '1rem' }} />
+                          <span>{project.stats.views}</span>
+                        </Box>
+                      </Box>
+                    </CardContent>
+                    {/* Hover 오버레이 */}
+                    <Box
+                      className="portfolio-hover-overlay"
                       sx={{
-                        color: '#4a5568',
-                        mb: 3,
-                        lineHeight: 1.6,
+                        position: 'absolute',
+                        inset: 0,
+                        zIndex: 10,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        background: 'rgba(255,255,255,0.22)',
+                        backdropFilter: 'blur(14px)',
+                        WebkitBackdropFilter: 'blur(14px)',
+                        opacity: 0,
+                        transition: 'opacity 0.28s',
+                        borderRadius: '20px',
+                        p: 3,
+                        textAlign: 'center',
+                        pointerEvents: 'none',
                       }}
                     >
-                      {project.description}
-                    </Typography>
-
-                    {/* 기술 스택 */}
-                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 3 }}>
-                      {project.technologies.slice(0, 3).map((tech) => (
-                        <Chip
-                          key={tech}
-                          label={tech}
-                          size="small"
-                          sx={{
-                            background: 'rgba(255, 87, 51, 0.1)',
-                            color: '#ff5733',
-                            fontWeight: 500,
-                            fontSize: '0.75rem',
-                          }}
-                        />
-                      ))}
-                      {project.technologies.length > 3 && (
-                        <Chip
-                          label={`+${project.technologies.length - 3}`}
-                          size="small"
-                          sx={{
-                            background: 'rgba(74, 85, 104, 0.1)',
-                            color: '#4a5568',
-                            fontWeight: 500,
-                            fontSize: '0.75rem',
-                          }}
-                        />
-                      )}
-                    </Box>
-
-                    {/* 통계 */}
-                    <Box sx={{ display: 'flex', gap: 3, color: '#4a5568', fontSize: '0.875rem' }}>
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                        <Star sx={{ fontSize: '1rem' }} />
-                        <span>{project.stats.stars}</span>
-                      </Box>
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                        <Code sx={{ fontSize: '1rem' }} />
-                        <span>{project.stats.forks}</span>
-                      </Box>
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                        <TrendingUp sx={{ fontSize: '1rem' }} />
-                        <span>{project.stats.views}</span>
+                      <Typography variant="h5" sx={{ color: '#ff5733', fontWeight: 800, mb: 2, textShadow: '0 2px 12px rgba(255,87,51,0.10)' }}>{project.title}</Typography>
+                      <Typography variant="body1" sx={{ color: '#1a202c', mb: 2.5, fontWeight: 500, lineHeight: 1.7 }}>{project.longDescription}</Typography>
+                      <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', justifyContent: 'center', mb: 2 }}>
+                        {project.technologies.map((tech) => (
+                          <Chip
+                            key={tech}
+                            label={tech}
+                            size="small"
+                            sx={{
+                              background: techColors[tech] ? techColors[tech] : 'rgba(255,87,51,0.10)',
+                              color: techColors[tech] && ['#000', '#8d6e63', '#ffb300'].includes(techColors[tech]) ? '#fff' : '#222',
+                              fontWeight: 600,
+                              fontSize: '0.92rem',
+                              px: 1.2,
+                            }}
+                          />
+                        ))}
                       </Box>
                     </Box>
-                  </CardContent>
-                </Card>
+                  </Card>
+                </Box>
               </motion.div>
             </Grid>
           ))}

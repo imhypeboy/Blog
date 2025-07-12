@@ -72,7 +72,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
         {/* 글래스모피즘 배경 장식 */}
         {decorativeElements}
 
-        <Container maxWidth="md" sx={{ position: 'relative', zIndex: 1, textAlign: 'center' }}>
+        <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 1, textAlign: 'center', px: { xs: 2, md: 6 }, width: { xs: '100%', md: '95vw' }, maxWidth: 1400 }}>
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -111,7 +111,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
                 mb: 6,
                 lineHeight: 1.6,
                 fontSize: { xs: '1.1rem', md: '1.4rem' },
-                maxWidth: 600,
+                maxWidth: 900,
                 mx: 'auto',
                 whiteSpace: 'pre-line',
               }}

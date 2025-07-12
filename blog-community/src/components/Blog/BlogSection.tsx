@@ -1,15 +1,9 @@
 import React, { memo } from 'react'
-import { Container, Typography, Box, Grid } from '@mui/material'
-import { motion } from 'framer-motion'
+import { Container, Box, Typography, Grid } from '@mui/material'
 import TrendingUpIcon from '@mui/icons-material/TrendingUp'
-import type { BlogPost } from '../../types/post'
 import BlogCard from './BlogCard'
-
-interface BlogSectionProps {
-  posts: BlogPost[]
-  title?: string
-  onPostClick?: (post: BlogPost) => void
-}
+import { motion } from 'framer-motion'
+import type { BlogSectionProps } from '../../types/post'
 
 const BlogSection: React.FC<BlogSectionProps> = memo(({ 
   posts, 
@@ -39,7 +33,7 @@ const BlogSection: React.FC<BlogSectionProps> = memo(({
   }
 
   return (
-    <Container maxWidth="lg" sx={{ py: 12 }}>
+    <Container maxWidth="xl" sx={{ py: 12, mx: 'auto' }}>
       <motion.div
         initial="hidden"
         whileInView="visible"
@@ -61,14 +55,16 @@ const BlogSection: React.FC<BlogSectionProps> = memo(({
           </Typography>
         </Box>
 
-        <Grid container spacing={4}>
+        <Grid container spacing={5} justifyContent="center">
           {posts.map((post) => (
-            <Grid item xs={12} md={6} lg={4} key={post.id}>
-              <BlogCard 
-                post={post} 
-                onClick={onPostClick}
-                variants={cardVariants}
-              />
+            <Grid item xs={12} sm={6} md={4} key={post.id} sx={{ display: 'flex', justifyContent: 'center' }}>
+              <Box sx={{ width: '100%', maxWidth: 420, aspectRatio: '4 / 3', display: 'flex' }}>
+                <BlogCard 
+                  post={post} 
+                  onClick={onPostClick}
+                  variants={cardVariants}
+                />
+              </Box>
             </Grid>
           ))}
         </Grid>

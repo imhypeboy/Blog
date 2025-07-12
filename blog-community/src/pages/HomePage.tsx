@@ -50,27 +50,31 @@ const HomePage: React.FC = () => {
       role="main"
       aria-label="홈페이지"
     >
-      {/* 히어로 섹션 */}
-      <HeroSection
-        content={heroContent}
-        onPrimaryClick={handlers.handleViewLatestPosts}
-        onSecondaryClick={handlers.handleCreatePost}
-      />
+      {/* 히어로 섹션 - 좌우 여백 없이 꽉 차게 */}
+      <Box sx={{ width: '100vw', ml: 'calc(-50vw + 50%)', px: 0 }}>
+        <HeroSection
+          content={heroContent}
+          onPrimaryClick={handlers.handleViewLatestPosts}
+          onSecondaryClick={handlers.handleCreatePost}
+        />
+      </Box>
 
-      {/* 트렌딩 섹션 */}
-      <section id="trending-section" aria-labelledby="trending-title">
-        {loading ? (
-          <LoadingState />
-        ) : posts.length > 0 ? (
-          <BlogSection
-            posts={posts}
-            title="트렌딩 아티클"
-            onPostClick={handlers.handlePostClick}
-          />
-        ) : (
-          <EmptyState />
-        )}
-      </section>
+      {/* 트렌딩 섹션 - 적당한 최대폭으로 중앙 집중 */}
+      <Box sx={{ width: '100%', maxWidth: 1400, mx: 'auto', px: { xs: 2, md: 4 } }}>
+        <section id="trending-section" aria-labelledby="trending-title">
+          {loading ? (
+            <LoadingState />
+          ) : posts.length > 0 ? (
+            <BlogSection
+              posts={posts}
+              title="트렌딩 아티클"
+              onPostClick={handlers.handlePostClick}
+            />
+          ) : (
+            <EmptyState />
+          )}
+        </section>
+      </Box>
     </Box>
   )
 }
