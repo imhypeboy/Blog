@@ -205,3 +205,17 @@ img {
     padding: 0 1rem;
   }
 } 
+
+.segment-btn:hover {
+  background: #FF7043; /* 주황색 배경 */
+  color: #fff;         /* 흰색 글자 */
+} 
+
+.card-title {
+  /* 기존: color: #FF7043; */
+  color: #fff;
+} 
+
+.glassmorphism-card:hover .card-title {
+  color: #fff;
+} 

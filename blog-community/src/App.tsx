@@ -12,6 +12,8 @@ import PostPage from './pages/PostPage'
 import CreatePostPage from './pages/CreatePostPage'
 import ChatPage from './pages/ChatPage'
 import ProfilePage from './pages/ProfilePage'
+import ForgotPasswordPage from './pages/ForgotPasswordPage'
+import SignupPage from './pages/SignupPage'
 import { useAuthStore } from './store/authStore'
 import { supabase } from './lib/supabase'
 import { standardMotionVariants } from './theme/theme'
@@ -66,6 +68,8 @@ function App() {
             <Route path="/portfolio" element={<PortfolioPage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+            <Route path="/signup" element={<SignupPage />} />
             <Route path="/post/:id" element={<PostPage />} />
             <Route path="/create" element={<CreatePostPage />} />
             <Route path="/chat" element={<ChatPage />} />

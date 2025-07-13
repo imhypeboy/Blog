@@ -23,7 +23,7 @@ import {
   CheckCircle,
 } from '@mui/icons-material'
 import { motion, AnimatePresence } from 'framer-motion'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link as RouterLink } from 'react-router-dom'
 import { useAuthStore } from '../store/authStore'
 import { supabase } from '../lib/supabase'
 
@@ -292,7 +292,8 @@ const LoginPage: React.FC = () => {
                     }
                   />
                   <Link
-                    href="#"
+                    component={RouterLink}
+                    to="/forgot-password"
                     sx={{
                       color: '#ff5733',
                       textDecoration: 'none',
@@ -352,8 +353,8 @@ const LoginPage: React.FC = () => {
                 >
                   계정이 없으신가요?{' '}
                   <Link
-                    href="#"
-                    onClick={() => navigate('/register')}
+                    component={RouterLink}
+                    to="/signup"
                     sx={{
                       color: '#ff5733',
                       textDecoration: 'none',
